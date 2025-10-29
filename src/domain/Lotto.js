@@ -38,8 +38,8 @@ class Lotto {
   }
 
   #validateType(numbers) {
-    if (numbers.some((num) => typeof num !== 'number')) {
-      throw new Error('[ERROR] 로또 번호를 다시 한 번 확인해주세요!');
+    if (numbers.some((num) => !Number.isInteger(num))) {
+      throw new Error('[ERROR] 로또 번호는 숫자로만 입력 가능합니다!');
     }
   }
 
