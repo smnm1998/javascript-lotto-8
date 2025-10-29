@@ -1,8 +1,4 @@
-import {
-  LOTTO_NUMBER_COUNT,
-  LOTTO_MIN_NUMBER,
-  LOTTO_MAX_NUMBER,
-} from '../src/constants/lottoConstants.js';
+import { LOTTO_CONFIG } from '../constants/lottoConstants.js';
 
 class Lotto {
   #numbers;
@@ -20,7 +16,7 @@ class Lotto {
   }
 
   #validateLength(numbers) {
-    if (numbers.length !== LOTTO_NUMBER_COUNT) {
+    if (numbers.length !== LOTTO_CONFIG.NUMBER_COUNT) {
       throw new Error('[ERROR] 로또 번호는 6개여야 합니다!');
     }
   }
@@ -33,7 +29,9 @@ class Lotto {
 
   #validateRange(numbers) {
     if (
-      numbers.some((num) => num < LOTTO_MIN_NUMBER || num > LOTTO_MAX_NUMBER)
+      numbers.some(
+        (num) => num < LOTTO_CONFIG.MIN_NUMBER || num > LOTTO_CONFIG.MAX_NUMBER,
+      )
     ) {
       throw new Error('[ERROR] 로또 번호는 1~45 사이여야 합니다!');
     }
@@ -43,6 +41,10 @@ class Lotto {
     if (numbers.some((num) => typeof num !== 'number')) {
       throw new Error('[ERROR] 로또 번호를 다시 한 번 확인해주세요!');
     }
+  }
+
+  getNumbers() {
+    return this.#numbers;
   }
 }
 

@@ -1,7 +1,15 @@
 export const PRIZE = {
-  FIRST: { match: 6, bonus: false, amount: 2000000000 },
-  SECOND: { match: 5, bonus: true, amount: 30000000 },
-  THIRD: { match: 5, bonus: false, amount: 1500000 },
-  FOURTH: { match: 4, bonus: false, amount: 50000 },
-  FIFTH: { match: 3, bonus: false, amount: 5000 },
+  FIRST: { name: '1등', match: 6, bonus: false, amount: 2_000_000_000 },
+  SECOND: { name: '2등', match: 5, bonus: true, amount: 30_000_000 },
+  THIRD: { name: '3등', match: 5, bonus: false, amount: 1_500_000 },
+  FOURTH: { name: '4등', match: 4, bonus: false, amount: 50_000 },
+  FIFTH: { name: '5등', match: 3, bonus: false, amount: 5_000 },
 };
+
+export const PRIZE_RANKS = [
+  PRIZE_RANKS.FIRST,
+  PRIZE_RANKS.SECOND,
+  PRIZE_RANKS.THIRD,
+  PRIZE_RANKS.FOURTH,
+  PRIZE_RANKS.FIFTH,
+];
