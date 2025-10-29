@@ -43,6 +43,10 @@ class Lotto {
     }
   }
 
+  getSortedNumbers() {
+    return [...this.#numbers].sort((a, b) => a - b);
+  }
+
   getNumbers() {
     return this.#numbers;
   }
