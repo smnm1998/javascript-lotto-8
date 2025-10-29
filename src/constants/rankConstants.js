@@ -1,4 +1,4 @@
-export const PRIZE = {
+export const RANK = {
   FIRST: { name: '1등', match: 6, bonus: false, amount: 2_000_000_000 },
   SECOND: { name: '2등', match: 5, bonus: true, amount: 30_000_000 },
   THIRD: { name: '3등', match: 5, bonus: false, amount: 1_500_000 },
@@ -6,10 +6,10 @@ export const PRIZE = {
   FIFTH: { name: '5등', match: 3, bonus: false, amount: 5_000 },
 };
 
-export const PRIZE_RANKS = [
-  PRIZE_RANKS.FIRST,
-  PRIZE_RANKS.SECOND,
-  PRIZE_RANKS.THIRD,
-  PRIZE_RANKS.FOURTH,
-  PRIZE_RANKS.FIFTH,
+export const LOTTO_RANKS = [
+  RANK.FIRST,
+  RANK.SECOND,
+  RANK.THIRD,
+  RANK.FOURTH,
+  RANK.FIFTH,
 ];
