@@ -7,9 +7,9 @@ export const RANK = {
 };
 
 export const LOTTO_RANKS = [
-  RANK.FIRST,
-  RANK.SECOND,
-  RANK.THIRD,
-  RANK.FOURTH,
   RANK.FIFTH,
+  RANK.FOURTH,
+  RANK.THIRD,
+  RANK.SECOND,
+  RANK.FIRST,
 ];
