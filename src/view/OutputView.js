@@ -12,7 +12,7 @@ class OutputView {
   }
 
   printStatistics(statistics, purchaseAmount) {
-    Console.print('당첨 통계');
+    Console.print('\n당첨 통계');
     Console.print('---');
 
     // 5등부터 1등까지 순회
