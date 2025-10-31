@@ -17,7 +17,7 @@ class LottoMachine {
   }
 
   #validatePurchaseAmount(amount) {
-    if (amount < 0) {
+    if (amount < LOTTO_CONFIG.PRICE) {
       throw new Error('[ERROR] 구입 금액은 최소 1000원 부터입니다!');
     }
 
