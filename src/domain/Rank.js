@@ -1,4 +1,4 @@
-import { RANK } from '../constants/rankConstants';
+import { RANK } from '../constants/rankConstants.js';
 
 class Rank {
   static from(matchCount, hasBonus) {
