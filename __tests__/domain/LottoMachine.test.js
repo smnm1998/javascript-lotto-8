@@ -13,7 +13,9 @@ describe('LottoMachine', () => {
     const lottos = machine.createLottos(1000);
 
     lottos.forEach((lotto) => {
-      expect(lotto.getNumbers()).toHaveLength(6);
+      const formatted = lotto.formatSorted();
+      const numbers = formatted.match(/\d+/g); // 숫자 추출
+      expect(numbers).toHaveLength(6);
     });
   });
 
