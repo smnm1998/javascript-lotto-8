@@ -6,9 +6,12 @@ import LottoMatcher from '../domain/LottoMatcher.js';
 import LottoStatistics from '../domain/LottoStatistics.js';
 
 class LottoController {
+  #inputView;
+  #outputView;
+
   constructor() {
-    this.inputView = new InputView();
-    this.outputView = new OutputView();
+    this.#inputView = new InputView();
+    this.#outputView = new OutputView();
   }
 
   async run() {
@@ -26,13 +29,13 @@ class LottoController {
         this.#printLottos(lottos);
         return { purchaseAmount: amount, lottos };
       } catch (error) {
-        this.outputView.printError(error.message);
+        this.#outputView.printError(error.message);
       }
     }
   }
 
   async #inputPurchaseAmount() {
-    const input = await this.inputView.readPurchaseAmount();
+    const input = await this.#inputView.readPurchaseAmount();
     return this.#parsePurchaseAmount(input);
   }
 
@@ -42,7 +45,7 @@ class LottoController {
   }
 
   #printLottos(lottos) {
-    this.outputView.printLottos(lottos);
+    this.#outputView.printLottos(lottos);
   }
 
   #parsePurchaseAmount(input) {
@@ -56,48 +59,55 @@ class LottoController {
   async #getWinningNumber() {
     while (true) {
       try {
-        const numbersInput = await this.inputView.readWinningNumbers();
-        const bonusInput = await this.inputView.readBonusNumber();
+        const numbersInput = await this.#inputView.readWinningNumbers();
+        const bonusInput = await this.#inputView.readBonusNumber();
 
         const numbers = this.#parseNumbers(numbersInput);
         const bonus = this.#parseBonus(bonusInput);
 
         return new WinningNumber(numbers, bonus);
       } catch (error) {
-        this.outputView.printError(error.message);
+        this.#outputView.printError(error.message);
       }
     }
+  }
+
+  #validateNumber(value, errorMessage) {
+    const parsed = Number(value);
+    if (Number.isNaN(parsed)) {
+      throw new Error(errorMessage);
+    }
+    return parsed;
   }
 
   #parseNumbers(input) {
-    const numbers = input.split(',').map((num) => {
-      const parsed = Number(num.trim());
-      if (Number.isNaN(parsed)) {
-        throw new Error('[ERROR] 당첨 번호는 숫자여야 합니다!');
-      }
-      return parsed;
-    });
-    return numbers;
+    return input
+      .split(',')
+      .map((num) =>
+        this.#validateNumber(
+          num.trim(),
+          '[ERROR] 당첨 번호는 숫자여야 합니다!',
+        ),
+      );
   }
 
   #parseBonus(input) {
-    const bonus = Number(input.trim());
-    if (Number.isNaN(bonus)) {
-      throw new Error('[ERROR] 보너스 번호는 숫자여야 합니다!');
-    }
-    return bonus;
+    return this.#validateNumber(
+      input.trim(),
+      '[ERROR] 보너스 번호는 숫자여야 합니다!',
+    );
   }
 
   #checkWinning(lottos, winningNumber) {
     return lottos.map((lotto) => {
       const matcher = new LottoMatcher(lotto, winningNumber);
-      return matcher.getRank();
+      return matcher.determineRank();
     });
   }
 
   #printResults(results, purchaseAmount) {
     const statistics = new LottoStatistics(results);
-    this.outputView.printStatistics(statistics, purchaseAmount);
+    this.#outputView.printStatistics(statistics, purchaseAmount);
   }
 }
 
