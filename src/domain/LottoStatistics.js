@@ -1,5 +1,5 @@
 import { LOTTO_RANKS } from '../constants/rankConstants.js';
-import { STATISTICS_CONFIG } from '../../src/constants/lottoConstants.js';
+import { STATISTICS_CONFIG } from '../constants/lottoConstants.js';
 
 class LottoStatistics {
   #statistics;
@@ -8,6 +8,51 @@ class LottoStatistics {
   constructor(results) {
     this.#statistics = this.#buildStatistics(results);
     this.#totalPrize = this.#calculateTotalPrize();
+  }
+
+  formatStatisticsMessage() {
+    const messages = [];
+    LOTTO_RANKS.forEach((rank) => {
+      const count = this.getRankCount(rank);
+      let matchInfo = `${rank.match}개 일치`;
+
+      if (rank.bonus) {
+        matchInfo = `${rank.match}개 일치, 보너스 볼 일치`;
+      }
+
+      const amount = rank.amount.toLocaleString();
+      messages.push(`${matchInfo} (${amount}원) - ${count}개`);
+    });
+    return messages;
+  }
+
+  formatReturnRateMessage(purchaseAmount) {
+    const returnRate = this.calculateReturnRate(purchaseAmount);
+    return `총 수익률은 ${returnRate.toFixed(STATISTICS_CONFIG.DECIMAL_PLACES)}%입니다.`;
+  }
+
+  calculateReturnRate(purchaseAmount) {
+    if (purchaseAmount === 0) {
+      return 0;
+    }
+
+    const { RETURN_RATE_MULTIPLIER, RETURN_RATE_DIVISOR } = STATISTICS_CONFIG;
+    return (
+      Math.round((this.#totalPrize / purchaseAmount) * RETURN_RATE_MULTIPLIER) /
+      RETURN_RATE_DIVISOR
+    );
+  }
+
+  getRankCount(rank) {
+    return this.#statistics.get(rank) || 0;
+  }
+
+  getTotalPrize() {
+    return this.#totalPrize;
+  }
+
+  getStatistics() {
+    return new Map(this.#statistics);
   }
 
   #buildStatistics(results) {
@@ -37,51 +82,6 @@ class LottoStatistics {
     });
 
     return total;
-  }
-
-  formatStatisticsMessage() {
-    const messages = [];
-    LOTTO_RANKS.forEach((rank) => {
-      const count = this.getRankCount(rank);
-      let matchInfo = `${rank.match}개 일치`;
-
-      if (rank.bonus) {
-        matchInfo = `${rank.match}개 일치, 보너스 볼 일치`;
-      }
-
-      const amount = rank.amount.toLocaleString();
-      messages.push(`${matchInfo} (${amount}원) - ${count}개`);
-    });
-    return messages;
-  }
-
-  formatReturnRateMessage(purchaseAmount) {
-    const returnRate = this.calculateReturnRate(purchaseAmount);
-    return `총 수익률은 ${returnRate.toFixed(STATISTICS_CONFIG.DECIMAL_PLACES)}%입니다.`;
-  }
-
-  getRankCount(rank) {
-    return this.#statistics.get(rank) || 0;
-  }
-
-  getTotalPrize() {
-    return this.#totalPrize;
-  }
-
-  calculateReturnRate(purchaseAmount) {
-    if (purchaseAmount === 0) {
-      return 0;
-    }
-
-    const { RETURN_RATE_MULTIPLIER, RETURN_RATE_DIVISOR } = STATISTICS_CONFIG;
-    return (
-      Math.round((this.#totalPrize / purchaseAmount) * RETURN_RATE_MULTIPLIER) /
-      RETURN_RATE_DIVISOR
-    );
-  }
-
-  getStatistics() {
-    return new Map(this.#statistics);
   }
 }
 

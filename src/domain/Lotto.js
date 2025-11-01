@@ -11,8 +11,8 @@ class Lotto {
   #validate(numbers) {
     this.#validateType(numbers);
     this.#validateLength(numbers);
-    this.#validateRange(numbers);
     this.#validateDuplicate(numbers);
+    this.#validateRange(numbers);
   }
 
   #validateType(numbers) {
@@ -27,6 +27,12 @@ class Lotto {
     }
   }
 
+  #validateDuplicate(numbers) {
+    if (new Set(numbers).size !== numbers.length) {
+      throw new Error('[ERROR] 중복된 숫자가 있으면 안됩니다!');
+    }
+  }
+
   #validateRange(numbers) {
     if (
       numbers.some(
@@ -34,12 +40,6 @@ class Lotto {
       )
     ) {
       throw new Error('[ERROR] 로또 번호는 1~45 사이여야 합니다!');
-    }
-  }
-
-  #validateDuplicate(numbers) {
-    if (new Set(numbers).size !== numbers.length) {
-      throw new Error('[ERROR] 중복된 숫자가 있으면 안됩니다!');
     }
   }
 

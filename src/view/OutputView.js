@@ -1,5 +1,4 @@
 import { Console } from '@woowacourse/mission-utils';
-import { LOTTO_RANKS } from '../constants/rankConstants.js';
 
 class OutputView {
   printLottos(lottos) {

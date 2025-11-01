@@ -67,14 +67,6 @@ class LottoController {
     }
   }
 
-  #validateNumber(value, errorMessage) {
-    const parsed = Number(value);
-    if (Number.isNaN(parsed)) {
-      throw new Error(errorMessage);
-    }
-    return parsed;
-  }
-
   #parseNumbers(input) {
     const numbers = input
       .split(',')
@@ -109,6 +101,14 @@ class LottoController {
   #printResults(results, purchaseAmount) {
     const statistics = new LottoStatistics(results);
     this.#outputView.printStatistics(statistics, purchaseAmount);
+  }
+
+  #validateNumber(value, errorMessage) {
+    const parsed = Number(value);
+    if (Number.isNaN(parsed)) {
+      throw new Error(errorMessage);
+    }
+    return parsed;
   }
 }
 
