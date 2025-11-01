@@ -5,6 +5,7 @@ import LottoMachine from '../domain/LottoMachine.js';
 import WinningNumber from '../domain/WinningNumber.js';
 import LottoMatcher from '../domain/LottoMatcher.js';
 import LottoStatistics from '../domain/LottoStatistics.js';
+import PurchaseAmount from '../domain/PurchaseAmount.js';
 
 class LottoController {
   #inputView;
@@ -37,7 +38,8 @@ class LottoController {
 
   async #inputPurchaseAmount() {
     const input = await this.#inputView.readPurchaseAmount();
-    return this.#parsePurchaseAmount(input);
+    const purchaseAmount = new PurchaseAmount(input);
+    return purchaseAmount.getValue();
   }
 
   #issueLottos(amount) {
@@ -47,14 +49,6 @@ class LottoController {
 
   #printLottos(lottos) {
     this.#outputView.printLottos(lottos);
-  }
-
-  #parsePurchaseAmount(input) {
-    const amount = Number(input);
-    if (Number.isNaN(amount)) {
-      throw new Error('[ERROR] 구입 금액은 숫자여야 합니다.');
-    }
-    return amount;
   }
 
   async #getWinningNumber() {
