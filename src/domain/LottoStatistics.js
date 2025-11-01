@@ -1,4 +1,5 @@
-import { RANK, LOTTO_RANKS } from '../constants/rankConstants.js';
+import { LOTTO_RANKS } from '../constants/rankConstants.js';
+import { STATISTICS_CONFIG } from '../../src/constants/lottoConstants.js';
 
 class LottoStatistics {
   #statistics;
@@ -56,7 +57,7 @@ class LottoStatistics {
 
   formatReturnRateMessage(purchaseAmount) {
     const returnRate = this.calculateReturnRate(purchaseAmount);
-    return `총 수익률은 ${returnRate.toFixed(1)}%입니다.`;
+    return `총 수익률은 ${returnRate.toFixed(STATISTICS_CONFIG.DECIMAL_PLACES)}%입니다.`;
   }
 
   getRankCount(rank) {
@@ -72,7 +73,11 @@ class LottoStatistics {
       return 0;
     }
 
-    return Math.round((this.#totalPrize / purchaseAmount) * 1000) / 10;
+    const { RETURN_RATE_MULTIPLIER, RETURN_RATE_DIVISOR } = STATISTICS_CONFIG;
+    return (
+      Math.round((this.#totalPrize / purchaseAmount) * RETURN_RATE_MULTIPLIER) /
+      RETURN_RATE_DIVISOR
+    );
   }
 
   getStatistics() {
