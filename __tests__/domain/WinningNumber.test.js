@@ -1,4 +1,5 @@
 import WinningNumber from '../../src/domain/WinningNumber.js';
+import Lotto from '../../src/domain/Lotto.js';
 
 describe('WinningNumber', () => {
   test('보너스 번호가 당첨 번호와 중복되면 예외가 발생한다.', () => {
@@ -22,15 +23,11 @@ describe('WinningNumber', () => {
     },
   );
 
-  test('보너스 번호를 조회할 수 있다.', () => {
-    expect(() => {
-      const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
-      expect(winning.getBonusNumber()).toBe(7);
-    });
-  });
-
   test('당첨 번호를 조회할 수 있다.', () => {
     const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
-    expect(winning.getWinningNumbers()).toEqual([1, 2, 3, 4, 5, 6]);
+    const testLotto = new Lotto([1, 2, 3, 4, 5, 6]);
+
+    // 데이터를 조회하는 대신 행동을 검증
+    expect(winning.countMatchesWith(testLotto)).toBe(6);
   });
 });

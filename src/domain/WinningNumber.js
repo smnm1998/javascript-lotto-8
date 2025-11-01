@@ -36,12 +36,12 @@ class WinningNumber {
     }
   }
 
-  getWinningNumbers() {
-    return this.#winningLotto.getNumbers();
+  countMatchesWith(lotto) {
+    return this.#winningLotto.countMatchesWith(lotto);
   }
 
-  getBonusNumber() {
-    return this.#bonusNumber;
+  isBonusMatch(lotto) {
+    return lotto.hasNumber(this.#bonusNumber);
   }
 }
 
