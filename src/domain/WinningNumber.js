@@ -8,21 +8,21 @@ class WinningNumber {
 
   constructor(numbers, bonusNumber) {
     this.#winningLotto = new Lotto(numbers);
-    this.#validateBonusType(bonusNumber);
-    this.#validateBonusRange(bonusNumber);
-    this.#validateBonusDuplicate(numbers, bonusNumber);
-    this.#bonusNumber = bonusNumber;
+    const parsedBonus = this.#validateBonusType(bonusNumber);
+    this.#validateBonusRange(parsedBonus);
+    this.#validateBonusDuplicate(numbers, parsedBonus);
+    this.#bonusNumber = parsedBonus;
   }
 
   #validateBonusType(bonusNumber) {
-    NumberValidator.validateInteger(
+    return NumberValidator.validateInteger(
       bonusNumber,
       '[ERROR] 보너스 번호는 숫자여야 합니다!',
     );
   }
 
   #validateBonusRange(bonusNumber) {
-    NumberValidator.validateInteger(
+    NumberValidator.validateRange(
       bonusNumber,
       LOTTO_CONFIG.MIN_NUMBER,
       LOTTO_CONFIG.MAX_NUMBER,
