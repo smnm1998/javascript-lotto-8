@@ -8,7 +8,8 @@ describe('LottoMatcher', () => {
     const winning = new WinningNumber([1, 2, 3, 7, 8, 9], 10);
     const matcher = new LottoMatcher(lotto, winning);
 
-    expect(matcher.getMatchCount()).toBe(3);
+    const rank = matcher.determineRank();
+    expect(rank.name).toBe('5등');
   });
 
   test('보너스 번호 일치 여부를 확인한다.', () => {
@@ -16,7 +17,8 @@ describe('LottoMatcher', () => {
     const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
     const matcher = new LottoMatcher(lotto, winning);
 
-    expect(matcher.hasBonus()).toBe(true);
+    const rank = matcher.determineRank();
+    expect(rank.name).toBe('2등');
   });
 
   describe('LottoMatcher - 등급 판별', () => {
@@ -24,7 +26,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 3, 4, 5, 6]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank.name).toBe('1등');
     });
 
@@ -32,7 +34,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 3, 4, 5, 7]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank.name).toBe('2등');
     });
 
@@ -40,7 +42,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 3, 4, 5, 16]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank.name).toBe('3등');
     });
 
@@ -48,7 +50,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 3, 4, 15, 16]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank.name).toBe('4등');
     });
 
@@ -56,7 +58,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 3, 14, 15, 16]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank.name).toBe('5등');
     });
 
@@ -64,7 +66,7 @@ describe('LottoMatcher', () => {
       const lotto = new Lotto([1, 2, 13, 14, 15, 16]);
       const winning = new WinningNumber([1, 2, 3, 4, 5, 6], 7);
       const matcher = new LottoMatcher(lotto, winning);
-      const rank = matcher.getRank();
+      const rank = matcher.determineRank();
       expect(rank).toBe(null);
     });
   });
