@@ -38,6 +38,27 @@ class LottoStatistics {
     return total;
   }
 
+  formatStatisticsMessage() {
+    const messages = [];
+    LOTTO_RANKS.forEach((rank) => {
+      const count = this.getRankCount(rank);
+      let matchInfo = `${rank.match}개 일치`;
+
+      if (rank.bonus) {
+        matchInfo = `${rank.match}개 일치, 보너스 볼 일치`;
+      }
+
+      const amount = rank.amount.toLocaleString();
+      messages.push(`${matchInfo} (${amount}원) - ${count}개`);
+    });
+    return messages;
+  }
+
+  formatReturnRateMessage(purchaseAmount) {
+    const returnRate = this.calculateReturnRate(purchaseAmount);
+    return `총 수익률은 ${returnRate.toFixed(1)}%입니다.`;
+  }
+
   getRankCount(rank) {
     return this.#statistics.get(rank) || 0;
   }
@@ -55,7 +76,7 @@ class LottoStatistics {
   }
 
   getStatistics() {
-    return this.#statistics;
+    return new Map(this.#statistics);
   }
 }
 
