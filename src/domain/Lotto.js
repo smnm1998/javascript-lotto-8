@@ -15,15 +15,15 @@ class Lotto {
     this.#validateDuplicate(numbers);
   }
 
-  #validateLength(numbers) {
-    if (numbers.length !== LOTTO_CONFIG.NUMBER_COUNT) {
-      throw new Error('[ERROR] 로또 번호는 6개여야 합니다!');
+  #validateType(numbers) {
+    if (numbers.some((num) => !Number.isInteger(num))) {
+      throw new Error('[ERROR] 로또 번호는 숫자로만 입력 가능합니다!');
     }
   }
 
-  #validateDuplicate(numbers) {
-    if (new Set(numbers).size !== numbers.length) {
-      throw new Error('[ERROR] 중복된 숫자가 있으면 안됩니다!');
+  #validateLength(numbers) {
+    if (numbers.length !== LOTTO_CONFIG.NUMBER_COUNT) {
+      throw new Error('[ERROR] 로또 번호는 6개여야 합니다!');
     }
   }
 
@@ -37,18 +37,29 @@ class Lotto {
     }
   }
 
-  #validateType(numbers) {
-    if (numbers.some((num) => !Number.isInteger(num))) {
-      throw new Error('[ERROR] 로또 번호는 숫자로만 입력 가능합니다!');
+  #validateDuplicate(numbers) {
+    if (new Set(numbers).size !== numbers.length) {
+      throw new Error('[ERROR] 중복된 숫자가 있으면 안됩니다!');
     }
   }
 
-  getSortedNumbers() {
-    return [...this.#numbers].sort((a, b) => a - b);
+  countMatchesWith(otherLotto) {
+    let count = 0;
+    for (const number of this.#numbers) {
+      if (otherLotto.hasNumber(number)) {
+        count++;
+      }
+    }
+    return count;
   }
 
-  getNumbers() {
-    return this.#numbers;
+  hasNumber(number) {
+    return this.#numbers.includes(number);
+  }
+
+  formatSorted() {
+    const sorted = [...this.#numbers].sort((a, b) => a - b);
+    return `[${sorted.join(', ')}]`;
   }
 }
 
