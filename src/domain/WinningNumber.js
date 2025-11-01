@@ -1,5 +1,6 @@
 import { LOTTO_CONFIG } from '../constants/lottoConstants.js';
 import Lotto from './Lotto.js';
+import NumberValidator from '../utils/NumberValidator.js';
 
 class WinningNumber {
   #winningLotto;
@@ -14,20 +15,19 @@ class WinningNumber {
   }
 
   #validateBonusType(bonusNumber) {
-    if (!Number.isInteger(bonusNumber)) {
-      throw new Error('[ERROR] 보너스 번호는 숫자여야 합니다!');
-    }
+    NumberValidator.validateInteger(
+      bonusNumber,
+      '[ERROR] 보너스 번호는 숫자여야 합니다!',
+    );
   }
 
   #validateBonusRange(bonusNumber) {
-    if (
-      bonusNumber < LOTTO_CONFIG.MIN_NUMBER ||
-      bonusNumber > LOTTO_CONFIG.MAX_NUMBER
-    ) {
-      throw new Error(
-        '[ERROR] 보너스 번호는 1 이상 45 이하의 수만 가능합니다!',
-      );
-    }
+    NumberValidator.validateInteger(
+      bonusNumber,
+      LOTTO_CONFIG.MIN_NUMBER,
+      LOTTO_CONFIG.MAX_NUMBER,
+      '[ERROR] 보너스 번호는 1 이상 45 이하의 수만 가능합니다!',
+    );
   }
 
   #validateBonusDuplicate(numbers, bonusNumber) {
