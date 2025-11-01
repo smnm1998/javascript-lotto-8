@@ -1,3 +1,4 @@
+import { LOTTO_CONFIG } from '../constants/lottoConstants.js';
 import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
 import LottoMachine from '../domain/LottoMachine.js';
@@ -60,9 +61,9 @@ class LottoController {
     while (true) {
       try {
         const numbersInput = await this.#inputView.readWinningNumbers();
-        const bonusInput = await this.#inputView.readBonusNumber();
-
         const numbers = this.#parseNumbers(numbersInput);
+
+        const bonusInput = await this.#inputView.readBonusNumber();
         const bonus = this.#parseBonus(bonusInput);
 
         return new WinningNumber(numbers, bonus);
@@ -81,7 +82,7 @@ class LottoController {
   }
 
   #parseNumbers(input) {
-    return input
+    const numbers = input
       .split(',')
       .map((num) =>
         this.#validateNumber(
@@ -89,6 +90,12 @@ class LottoController {
           '[ERROR] 당첨 번호는 숫자여야 합니다!',
         ),
       );
+
+    if (numbers.length !== LOTTO_CONFIG.NUMBER_COUNT) {
+      throw new Error('[ERROR] 로또 번호는 6개여야 합니다!');
+    }
+
+    return numbers;
   }
 
   #parseBonus(input) {
