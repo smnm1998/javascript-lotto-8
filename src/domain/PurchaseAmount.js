@@ -1,4 +1,4 @@
-import { LOTTO_CONFIG } from '../constants/lottoConstants';
+import { LOTTO_CONFIG } from '../constants/lottoConstants.js';
 
 class PurchaseAmount {
   #value;
